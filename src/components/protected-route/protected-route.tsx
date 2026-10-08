@@ -1,5 +1,6 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { Navigate, useLocation } from 'react-router';
+import type { Location } from 'react-router-dom';
 
 import { useSelector } from '../../services/store';
 import { isAuthCheckedSelector, userDataSelector } from '../../services/userSlice';
@@ -32,7 +33,7 @@ export const ProtectedRoute = ({
   }
 
   if (onlyUnAuth && user) {
-    const from = state?.from ?? { pathname: '/' };
+    const from = state?.from?.pathname ?? '/';
     return <Navigate replace to={from} />;
   }
 

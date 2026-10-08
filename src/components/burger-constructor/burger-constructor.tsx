@@ -30,20 +30,23 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
     }
 
     if (!constructorItems.bun || orderRequest) return;
-    // TODO: Оформить заказ
+
     const { bun, ingredients } = constructorItems;
     const orderData: string[] = [
       bun._id,
       ...ingredients.map((item) => item._id),
       bun._id,
     ];
-    void dispatch(postOrder(orderData));
+    void dispatch(postOrder(orderData))
+      .unwrap()
+      .then(() => {
+        void dispatch(clear());
+      });
   };
 
   const closeOrderModal = (): void => {
     void navigate('/', { replace: true });
     void dispatch(removeOrder());
-    void dispatch(clear());
   };
 
   const price = useMemo(

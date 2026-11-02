@@ -21,7 +21,7 @@ export const BurgerConstructorUI = ({
 }: BurgerConstructorUIProps): React.JSX.Element => (
   <section className={styles.burger_constructor}>
     {constructorItems.bun ? (
-      <div className={`${styles.element} mb-4 mr-4`}>
+      <div className={`${styles.element} mb-4 mr-4`} data-testid="bun-top">
         <ConstructorElement
           type="top"
           isLocked
@@ -37,7 +37,7 @@ export const BurgerConstructorUI = ({
         Выберите булки
       </div>
     )}
-    <ul className={styles.elements}>
+    <ul className={styles.elements} data-testid="fill">
       {constructorItems.ingredients.length > 0 ? (
         constructorItems.ingredients.map(
           (item: TConstructorIngredient, index: number) => (
@@ -56,7 +56,7 @@ export const BurgerConstructorUI = ({
       )}
     </ul>
     {constructorItems.bun ? (
-      <div className={`${styles.element} mt-4 mr-4`}>
+      <div className={`${styles.element} mt-4 mr-4`} data-testid="bun-bottom">
         <ConstructorElement
           type="bottom"
           isLocked
@@ -77,7 +77,13 @@ export const BurgerConstructorUI = ({
         <p className={`text ${styles.text} mr-2`}>{price}</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Button htmlType="button" type="primary" size="large" onClick={onOrderClick}>
+      <Button
+        data-testid="but-order"
+        htmlType="button"
+        type="primary"
+        size="large"
+        onClick={onOrderClick}
+      >
         Оформить заказ
       </Button>
     </div>

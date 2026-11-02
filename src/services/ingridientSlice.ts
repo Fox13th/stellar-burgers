@@ -10,7 +10,7 @@ export type IngridientState = {
   error: SerializedError | null;
 };
 
-const initialState: IngridientState = {
+export const initialState: IngridientState = {
   ingredients: [],
   isLoading: false,
   error: null,

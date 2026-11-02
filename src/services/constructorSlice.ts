@@ -12,7 +12,7 @@ export type ConstructorState = {
   error: SerializedError | null;
 };
 
-const initialState: ConstructorState = {
+export const initialState: ConstructorState = {
   constructor: {
     bun: null,
     ingredients: [],

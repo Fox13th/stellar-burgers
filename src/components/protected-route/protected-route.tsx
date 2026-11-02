@@ -1,9 +1,10 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { Navigate, useLocation } from 'react-router';
-import type { Location } from 'react-router-dom';
 
 import { useSelector } from '../../services/store';
 import { isAuthCheckedSelector, userDataSelector } from '../../services/userSlice';
+
+import type { Location } from 'react-router-dom';
 
 type TLocationState = {
   from?: Location;

@@ -1,25 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const mockOrder = {
-  _id: 'mock-order',
-  status: 'done',
-  name: 'Бургер для теста',
-  createdAt: '2026-10-31T12:00:00.000Z',
-  updatedAt: '2026-10-31T12:00:00.000Z',
-  number: 14322,
-  ingredients: [
-    '643d69a5c3f7b9001cfa093c',
-    '643d69a5c3f7b9001cfa0941',
-    '643d69a5c3f7b9001cfa0942',
-  ],
-};
-
-const mockNewOrderResponse = {
-  success: true,
-  order: mockOrder,
-  name: mockOrder.name,
-};
-
 test.beforeEach(async ({ page }) => {
   await page.routeFromHAR('./tests/hars/ingredients.har', {
     url: '**/api/ingredients',
@@ -33,9 +13,9 @@ test.beforeEach(async ({ page }) => {
 test.describe('add ingredients to constructor', function () {
   test('add bun and filling and sauce to the constructor', async ({ page }) => {
     //добавление ингредиентов из списка в конструктор
-    await page.getByTestId('button_add-643d69a5c3f7b9001cfa093c').click();
-    await page.getByTestId('button_add-643d69a5c3f7b9001cfa0941').click();
-    await page.getByTestId('button_add-643d69a5c3f7b9001cfa0942').click();
+    await page.getByTestId('button_add-6acd6b8163765e371c0bd9eb').click();
+    await page.getByTestId('button_add-6acd6b8163765e96530bd9f0').click();
+    await page.getByTestId('button_add-6acd6b8163765e05c50bd9f1').click();
 
     await expect(page.getByTestId('bun-top')).toHaveText(
       'Краторная булка N-200i (верх)1255'
@@ -52,7 +32,7 @@ test.describe('add ingredients to constructor', function () {
 test.describe('modal window', function () {
   test.beforeEach(async ({ page }) => {
     //открытие модального окна ингредиента
-    await page.getByTestId('ingredient-643d69a5c3f7b9001cfa0940').click();
+    await page.getByTestId('ingredient-6acd6b8163765e9acf0bd9ef').click();
     await expect(page.getByTestId('modal')).toBeVisible();
     await expect(page.getByTestId('ingrDetails-name')).toHaveText(
       'Говяжий метеорит (отбивная)'
@@ -85,15 +65,9 @@ test.describe('create order', function () {
       update: false,
     });
 
-    await page.route('**/api/orders', (route) => {
-      if (route.request().method() === 'POST') {
-        return route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify(mockNewOrderResponse),
-        });
-      }
-      return route.continue();
+    await page.routeFromHAR('./tests/hars/order.har', {
+      url: '**/api/orders',
+      update: false,
     });
 
     await context.addCookies([
@@ -116,9 +90,9 @@ test.describe('create order', function () {
 
     await expect(page.getByTestId('preloader')).not.toBeVisible();
     //Собираем бургер
-    await page.getByTestId('button_add-643d69a5c3f7b9001cfa093c').click();
-    await page.getByTestId('button_add-643d69a5c3f7b9001cfa0941').click();
-    await page.getByTestId('button_add-643d69a5c3f7b9001cfa0942').click();
+    await page.getByTestId('button_add-6acd6b8163765e371c0bd9eb').click();
+    await page.getByTestId('button_add-6acd6b8163765e96530bd9f0').click();
+    await page.getByTestId('button_add-6acd6b8163765e05c50bd9f1').click();
 
     await expect(page.getByTestId('bun-top')).toBeVisible();
     await expect(page.getByTestId('bun-top')).toHaveText(
@@ -139,7 +113,7 @@ test.describe('create order', function () {
     //Проверяется, что модальное окно открылось и номер заказа верный
     const modal = page.getByTestId('modal');
     await expect(modal).toBeVisible();
-    await expect(page.getByTestId('order-number')).toHaveText('14322');
+    await expect(page.getByTestId('order-number')).toHaveText('814');
 
     //Проверяется, что конструктор пуст
     await expect(page.getByTestId('bun-top')).toHaveCount(0);
